@@ -1,0 +1,46 @@
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+html {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+	min-width: 250px;
+	max-width: 500px;
+	width: 40vw;
+}
+h1 {
+  margin: 0;
+  font-weight: normal;
+  font-size: 1.5em;
+}
+.field {
+	display: flex;
+	height: 2.3em;
+}
+input {
+	border-radius: 6px 0 0 6px;
+	border: 1px solid gray;
+	width: 75%;
+	padding: .6em;
+}
+button {
+	border-radius: 0 6px 6px 0;
+	border: 1px solid gray;
+	border-left: none;
+	background-color: coral;
+	width: 25%;
+	max-width: 75px;
+	padding: .6em;
+	cursor: pointer;
+}

@@ -1,0 +1,26 @@
+{
+  "name": "puniurl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huntinghawk1415/puniurl.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huntinghawk1415/puniurl/issues"
+  },
+  "homepage": "https://github.com/huntinghawk1415/puniurl#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.9.0",
+    "url-parse": "^1.4.7"
+  }
+}
