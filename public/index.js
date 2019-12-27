@@ -12,8 +12,10 @@ async function process() {
   const json = await resp.json()
 
   if (!json.error) {
-    window.location.href = '/processed'
+    console.log('success', json.processed)
+    // window.location.href = '/processed'
   } else {
+    console.log('error', json.error)
     //set danger color on input and button
   }
 }
