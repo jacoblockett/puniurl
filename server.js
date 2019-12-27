@@ -28,7 +28,7 @@ if (database === undefined) {
   database = admin.firestore()
 }
 
-async function givePuni(col) {  
+async function givePuni(col) {
   const puniurl = crs({type: 'url-safe', length: 8})
   const snapshot = await col.where('puni', '==', puniurl).get()
 
@@ -39,6 +39,7 @@ async function givePuni(col) {
   }
 }
 
+app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'}))
 app.use(express.static(__dirname + '/public'))
 app.use('/', express.json({limit: '1mb'}))
 
@@ -50,7 +51,7 @@ app.post('/', async (req, res) => {
   if (good) {
     const col = database.collection('addresses')
     const snapshot = await col.where('href', '==', req.body.url).get()
-    
+
     if (snapshot.size === 1) {
       return res.send({error: null, processed: `${domainName}${snapshot.docs[0].get('puni')}`})
     } else {
