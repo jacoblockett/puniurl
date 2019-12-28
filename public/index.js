@@ -1,6 +1,12 @@
+document.addEventListener('keyup', event => {
+  if (event.keyCode === 13) {
+    event.preventDefault()
+    process()
+  }
+})
+
 async function process() {
   const input = document.getElementById('urlInput')
-  console.log(input.value)
   const resp = await fetch('/', {
     method: 'POST',
     headers: {
@@ -12,14 +18,19 @@ async function process() {
   const json = await resp.json()
 
   if (!json.error) {
-    console.log('success', json.processed)
-    // window.location.href = '/processed'
+    window.location.href = '/processed'
   } else {
-    console.log('error', json.error)
-    //set danger color on input and button
+    const msg = document.getElementById('msg')
+    
+    msg.classList.remove('no-show')
+    msg.innerHTML = "Please use a valid url"
   }
 }
 
 function copy() {
+  const input = document.getElementById('urlInput')
 
+  input.select()
+  document.execCommand('copy')
+  document.getElementById('urlBtn').innerHTML = 'Copied!'
 }

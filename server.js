@@ -1,11 +1,13 @@
 require('dotenv').config()
 const express = require('express')
+const helmet = require('helmet')
 const admin = require('firebase-admin')
 const app = express()
 const crs = require('crypto-random-string')
-const urlReg = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
-const domainName = 'puniurl.com/'
-let database
+const urlReg = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, 'i')
+const protocolReg = new RegExp(/^https?:\/\//, 'i')
+const domainName = 'localhost:3000/' //'puniurl.com/'
+let database, linkToGive
 
 if (database === undefined) {
   const { TYPE, PROJECT_ID, PRIVATE_KEY_ID, PRIVATE_KEY, CLIENT_EMAIL, CLIENT_ID, AUTH_URI, TOKEN_URI, AUTH_PROVIDER_X509_CERT_URL, CLIENT_X509_CERT_URL, DATABASE_URL } = process.env
@@ -39,35 +41,58 @@ async function givePuni(col) {
   }
 }
 
+app.set('view engine', 'pug')
+app.set('port', 3000)
+
 app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'}))
 app.use(express.static(__dirname + '/public'))
 app.use('/', express.json({limit: '1mb'}))
 
-app.get('/', (req, res) => res.render('index'))
+app.get('/', (req, res) => {
+  linkToGive = undefined
+
+  return res.render('index', {view: 'index'})
+})
+app.get('/processed', (req, res) => {
+  if (linkToGive) {
+    return res.render('index', {view: 'processed', urlval: linkToGive})
+  } else {
+    return res.redirect('/')
+  }
+})
+app.get('/:id', async (req, res) => {
+  const col = database.collection('addresses')
+  const snapshot = await col.where('puni', '==', req.params.id).get()
+
+  if (snapshot.size === 1) {
+    const href = snapshot.docs[0].get('href')
+
+    if (protocolReg.test(href)) {
+      return res.redirect(href)
+    } else {
+      return res.redirect(`http://${href}`)
+    }
+  }
+})
 
 app.post('/', async (req, res) => {
-  const good = urlReg.test(req.body.url)
-
-  if (good) {
+  if (urlReg.test(req.body.url)) {
+    const normalizedUrl = req.body.url.toLowerCase()
     const col = database.collection('addresses')
-    const snapshot = await col.where('href', '==', req.body.url).get()
-
+    const snapshot = await col.where('href', '==', normalizedUrl).get()
+    
     if (snapshot.size === 1) {
-      return res.send({error: null, processed: `${domainName}${snapshot.docs[0].get('puni')}`})
+      linkToGive = `${domainName}${snapshot.docs[0].get('puni')}`
+      return res.send({error: null, processed: linkToGive})
     } else {
       const puni = await givePuni(col)
-      console.log(puni)
 
-      col.doc().set({
-        href: req.body.url,
-        puni
-      })
-      return res.send({error: null, processed: `${domainName}${puni}`})
+      linkToGive = `${domainName}${puni}`
+      col.doc().set({href: normalizedUrl, puni})
+
+      return res.send({error: null, processed: linkToGive})
     }
   } else {
-    console.log('good:', good)
-    console.log('given', req.body.url)
-    //gives a false bad_url: to replicate, submit a good url, then submit a separate good url. The separate good url will fail on first submit, but succeed on second submit. figure out why
     return res.send({error: 'BAD_URL'})
   }
 })

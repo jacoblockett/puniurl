@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    link(href="https://fonts.googleapis.com/css?family=Muli&display=swap", rel="stylesheet")
+    script(src="index.js", defer)
+    link(rel="stylesheet", href="index.css")
+    title Shorten any url, no strings attached | PuniUrl
+  body
+    #msg.error-snip.no-show
+    .container
+      if (view === 'processed')
+        h1 Here's your new Url!
+      .field
+        input(id="urlInput", type="text", placeholder="Gimme a url...", value= urlval || '')
+        button(id="urlBtn", type="button", onclick= view === 'index' ? "process()" : 'copy()')= view === 'index' ? 'Submit' : 'Copy'
