@@ -49,16 +49,13 @@ app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'}))
 app.use('/', express.json({limit: '1mb'}))
 app.use(express.static(__dirname + '/public'))
 
-app.get('/', (req, res) => res.render('index', {view: 'index'}))
+// app.get('/', (req, res) => res.render('index', {view: 'index'}))
 app.get('/:id', async (req, res) => {
-  console.log("I AM THE ID REQUESTED", req.params.id)
   if (req.params.id !== 'processed') {
-    console.log("I AM NOT PROCESSED")
     const col = database.collection('addresses')
     const snapshot = await col.where('puni', '==', req.params.id).get()
   
     if (snapshot.size === 1) {
-      console.log("MY LINK WAS FOUND")
       const href = snapshot.docs[0].get('href')
   
       if (protocolReg.test(href)) {
@@ -67,15 +64,12 @@ app.get('/:id', async (req, res) => {
         return res.redirect(`http://${href}`)
       }
     } else {
-      console.log("MY LINK WAS NOT FOUND")
       return res.render('404')
     }
   } else {
-    console.log("I AM PROCESSED")
     if (linkToGive) {
       return res.render('index', {view: 'processed', urlval: linkToGive})
     } else {
-      console.log("THERE IS NO linkToGive", linkToGive)
       return res.redirect('/')
     }
   }
