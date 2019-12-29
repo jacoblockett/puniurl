@@ -75,6 +75,7 @@ app.get('/:id', async (req, res) => {
     }
   }
 })
+app.get('*', (req, res) => res.send('404'))
 
 app.post('/', async (req, res) => {
   if (urlReg.test(req.body.url)) {
