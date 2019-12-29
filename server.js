@@ -50,13 +50,7 @@ app.use('/', express.json({limit: '1mb'}))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/:id', async (req, res) => {
-  if (req.params.id === 'processed') {
-    if (linkToGive) {
-      return res.render('index', {view: 'processed', urlval: linkToGive})
-    } else {
-      return res.redirect('/')
-    }
-  } else {
+  if (req.params.id !== 'processed') {
     const col = database.collection('addresses')
     const snapshot = await col.where('puni', '==', req.params.id).get()
   
@@ -70,6 +64,12 @@ app.get('/:id', async (req, res) => {
       }
     } else {
       return res.render('404')
+    }
+  } else {
+    if (linkToGive) {
+      return res.render('index', {view: 'processed', urlval: linkToGive})
+    } else {
+      return res.redirect('/')
     }
   }
 })
