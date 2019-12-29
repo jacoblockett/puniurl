@@ -7,7 +7,7 @@ const app = express()
 const crs = require('crypto-random-string')
 const urlReg = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, 'i')
 const protocolReg = new RegExp(/^https?:\/\//, 'i')
-const domainName = 'https://puniurl.com/'
+const domainName = 'http://puniurl.com/'
 let database, linkToGive
 
 if (database === undefined) {
@@ -54,6 +54,13 @@ app.get('/', (req, res) => {
 
   return res.render('index', {view: 'index'})
 })
+app.get('/processed', (req, res) => {
+  if (linkToGive) {
+    return res.render('index', {view: 'processed', urlval: linkToGive})
+  } else {
+    return res.redirect('/')
+  }
+})
 app.get('/:id', async (req, res) => {
   const col = database.collection('addresses')
   const snapshot = await col.where('puni', '==', req.params.id).get()
@@ -68,13 +75,6 @@ app.get('/:id', async (req, res) => {
     }
   } else {
     return res.render('404')
-  }
-})
-app.get('/processed', (req, res) => {
-  if (linkToGive) {
-    return res.render('index', {view: 'processed', urlval: linkToGive})
-  } else {
-    return res.redirect('/')
   }
 })
 
