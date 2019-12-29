@@ -54,14 +54,6 @@ app.get('/', (req, res) => {
 
   return res.render('index', {view: 'index'})
 })
-app.get('/processed', (req, res) => {
-  if (linkToGive) {
-    return res.render('index', {view: 'processed', urlval: linkToGive})
-  } else {
-    return res.redirect('/')
-  }
-})
-app.get('/404', (req, res) => res.render('404'))
 app.get('/:id', async (req, res) => {
   const col = database.collection('addresses')
   const snapshot = await col.where('puni', '==', req.params.id).get()
@@ -75,7 +67,14 @@ app.get('/:id', async (req, res) => {
       return res.redirect(`http://${href}`)
     }
   } else {
-    return res.redirect('404')
+    return res.render('404')
+  }
+})
+app.get('/processed', (req, res) => {
+  if (linkToGive) {
+    return res.render('index', {view: 'processed', urlval: linkToGive})
+  } else {
+    return res.redirect('/')
   }
 })
 
