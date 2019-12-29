@@ -46,37 +46,34 @@ app.set('view engine', 'pug')
 app.set('port', 3000)
 
 app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'}))
-app.use(express.static(__dirname + '/public'))
 app.use('/', express.json({limit: '1mb'}))
+app.use(express.static(__dirname + '/public'))
 
-app.get('/processed', (req, res) => {
-  if (linkToGive) {
-    return res.render('index', {view: 'processed', urlval: linkToGive})
-  } else {
-    return res.redirect('/')
-  }
-})
 app.get('/:id', async (req, res) => {
-  const col = database.collection('addresses')
-  const snapshot = await col.where('puni', '==', req.params.id).get()
-
-  if (snapshot.size === 1) {
-    const href = snapshot.docs[0].get('href')
-
-    if (protocolReg.test(href)) {
-      return res.redirect(href)
+  if (req.params.id === 'processed') {
+    if (linkToGive) {
+      return res.render('index', {view: 'processed', urlval: linkToGive})
     } else {
-      return res.redirect(`http://${href}`)
+      return res.redirect('/')
     }
   } else {
-    return res.render('404')
+    const col = database.collection('addresses')
+    const snapshot = await col.where('puni', '==', req.params.id).get()
+  
+    if (snapshot.size === 1) {
+      const href = snapshot.docs[0].get('href')
+  
+      if (protocolReg.test(href)) {
+        return res.redirect(href)
+      } else {
+        return res.redirect(`http://${href}`)
+      }
+    } else {
+      return res.render('404')
+    }
   }
 })
-app.get('/', (req, res) => {
-  linkToGive = undefined
-
-  return res.render('index', {view: 'index'})
-})
+app.get('/', (req, res) => res.render('index', {view: 'index'}))
 
 app.post('/', async (req, res) => {
   if (urlReg.test(req.body.url)) {
