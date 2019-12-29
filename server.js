@@ -1,4 +1,5 @@
 require('dotenv').config()
+const PORT = process.env.PORT || 3000
 const express = require('express')
 const helmet = require('helmet')
 const admin = require('firebase-admin')
@@ -6,7 +7,7 @@ const app = express()
 const crs = require('crypto-random-string')
 const urlReg = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, 'i')
 const protocolReg = new RegExp(/^https?:\/\//, 'i')
-const domainName = 'localhost:3000/' //'puniurl.com/'
+const domainName = 'https://puni-url.herokuapp.com/' //'puniurl.com/'
 let database, linkToGive
 
 if (database === undefined) {
@@ -97,4 +98,4 @@ app.post('/', async (req, res) => {
   }
 })
 
-app.listen(3000)
+app.listen(PORT)
