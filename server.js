@@ -11,7 +11,9 @@ const domainName = 'https://puni-url.herokuapp.com/' //'puniurl.com/'
 let database, linkToGive
 
 if (database === undefined) {
+  console.log('before destructuring', process.env.PRIVATE_KEY)
   const { TYPE, PROJECT_ID, PRIVATE_KEY_ID, PRIVATE_KEY, CLIENT_EMAIL, CLIENT_ID, AUTH_URI, TOKEN_URI, AUTH_PROVIDER_X509_CERT_URL, CLIENT_X509_CERT_URL, DATABASE_URL } = process.env
+  console.log('after', PRIVATE_KEY)
 
   admin.initializeApp({
     credential: admin.credential.cert({
