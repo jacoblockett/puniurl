@@ -10,6 +10,8 @@ const protocolReg = new RegExp(/^https?:\/\//, 'i')
 const domainName = 'https://puni-url.herokuapp.com/' //'puniurl.com/'
 let database, linkToGive
 
+console.log(process.env)
+
 // if (database === undefined) {
 //   const { TYPE, PROJECT_ID, PRIVATE_KEY_ID, PRIVATE_KEY, CLIENT_EMAIL, CLIENT_ID, AUTH_URI, TOKEN_URI, AUTH_PROVIDER_X509_CERT_URL, CLIENT_X509_CERT_URL, DATABASE_URL } = process.env
 
