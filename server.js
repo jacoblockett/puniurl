@@ -49,11 +49,6 @@ app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'}))
 app.use(express.static(__dirname + '/public'))
 app.use('/', express.json({limit: '1mb'}))
 
-app.get('/', (req, res) => {
-  linkToGive = undefined
-
-  return res.render('index', {view: 'index'})
-})
 app.get('/processed', (req, res) => {
   if (linkToGive) {
     return res.render('index', {view: 'processed', urlval: linkToGive})
@@ -76,6 +71,11 @@ app.get('/:id', async (req, res) => {
   } else {
     return res.render('404')
   }
+})
+app.get('/', (req, res) => {
+  linkToGive = undefined
+
+  return res.render('index', {view: 'index'})
 })
 
 app.post('/', async (req, res) => {
