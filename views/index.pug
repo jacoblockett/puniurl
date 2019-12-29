@@ -14,5 +14,5 @@ html(lang="en")
       if (view === 'processed')
         h1 Here's your new Url!
       .field
-        input(id="urlInput", type="text", placeholder="Gimme a url...", value= urlval || '')
+        input(id= view === 'index' ? "urlInput" : "urlOutput", type="text", placeholder="Gimme a url...", value= urlval || '')
         button(id="urlBtn", type="button", onclick= view === 'index' ? "process()" : 'copy()')= view === 'index' ? 'Submit' : 'Copy'

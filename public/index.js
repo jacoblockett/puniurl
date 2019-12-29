@@ -1,13 +1,18 @@
-document.addEventListener('keyup', event => {
-  if (event.keyCode === 13) {
-    event.preventDefault()
-    process()
-  }
-})
+const urlInput = document.getElementById('urlInput')
+const btn = document.getElementById('urlBtn')
+let enterAllowed = true
+
+if (urlInput) {
+  urlInput.addEventListener('keyup', event => {
+    if (event.keyCode === 13 && enterAllowed) {
+      event.preventDefault()
+      process()
+    }
+  })
+}
 
 async function process() {
-  const input = document.getElementById('urlInput')
-  const btn = document.getElementById('urlBtn')
+  enterAllowed = false
   const curBtnInner = btn.innerHTML
 
   btn.innerHTML = '<div class="loader"></span>'
@@ -18,7 +23,7 @@ async function process() {
       'Content-Type': 'application/json',
     },
     referrer: 'no-referrer',
-    body: JSON.stringify({url: input.value})
+    body: JSON.stringify({url: urlInput.value})
   })
   const json = await resp.json()
 
@@ -34,9 +39,9 @@ async function process() {
 }
 
 function copy() {
-  const input = document.getElementById('urlInput')
+  const output = document.getElementById('urlOutput')
 
-  input.select()
+  output.select()
   document.execCommand('copy')
-  document.getElementById('urlBtn').innerHTML = 'Copied!'
+  btn.innerHTML = 'Copied!'
 }
