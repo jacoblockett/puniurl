@@ -63,6 +63,9 @@ input {
 	box-shadow: 0 2px 5px rgba(71, 69, 84, 0.25);
 }
 button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border-radius: 0 8px 8px 0;
 	border: none;
 	border-left: none;
@@ -80,4 +83,40 @@ button:hover {
 }
 button:active {
 	background-color: rgb(255, 113, 61);
+}
+.flex-center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-family: Muli, sans-serif;
+}
+.flex-center h1 {
+	font-size: 3em;
+	color: rgb(204, 58, 58);
+}
+.flex-center h3 {
+	padding: 5px 10px;
+	text-align: center;
+	margin: 0;
+}
+/* loader and spin animation basically lifted from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_loader */
+.loader {
+	width: 1em;
+	height: 1em;
+	border-radius: 50%;
+	border: .15em solid coral;
+	border-top: .15em solid #333;
+	border-bottom: .15em solid #333;
+  -webkit-animation: spin 1s linear infinite; /* Safari */
+  animation: spin 1s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

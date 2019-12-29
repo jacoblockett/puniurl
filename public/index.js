@@ -7,6 +7,11 @@ document.addEventListener('keyup', event => {
 
 async function process() {
   const input = document.getElementById('urlInput')
+  const btn = document.getElementById('urlBtn')
+  const curBtnInner = btn.innerHTML
+
+  btn.innerHTML = '<div class="loader"></span>'
+
   const resp = await fetch('/', {
     method: 'POST',
     headers: {
@@ -22,6 +27,7 @@ async function process() {
   } else {
     const msg = document.getElementById('msg')
     
+    btn.innerHTML = curBtnInner
     msg.classList.remove('no-show')
     msg.innerHTML = "Please use a valid url"
   }

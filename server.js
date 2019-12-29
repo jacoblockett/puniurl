@@ -7,20 +7,18 @@ const app = express()
 const crs = require('crypto-random-string')
 const urlReg = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, 'i')
 const protocolReg = new RegExp(/^https?:\/\//, 'i')
-const domainName = 'https://puni-url.herokuapp.com/' //'puniurl.com/'
+const domainName = 'https://puniurl.com/'
 let database, linkToGive
 
 if (database === undefined) {
-  console.log('before destructuring', process.env.PRIVATE_KEY)
   const { TYPE, PROJECT_ID, PRIVATE_KEY_ID, PRIVATE_KEY, CLIENT_EMAIL, CLIENT_ID, AUTH_URI, TOKEN_URI, AUTH_PROVIDER_X509_CERT_URL, CLIENT_X509_CERT_URL, DATABASE_URL } = process.env
-  console.log('after', PRIVATE_KEY)
 
   admin.initializeApp({
     credential: admin.credential.cert({
       type: TYPE,
       project_id: PROJECT_ID,
       private_key_id: PRIVATE_KEY_ID,
-      private_key: PRIVATE_KEY.replace(/\\n/g, '\n'),
+      private_key: PRIVATE_KEY.replace(/\\n/g, '\n'), //https://stackoverflow.com/questions/50299329/node-js-firebase-service-account-private-key-wont-parse
       client_email: CLIENT_EMAIL,
       client_id: CLIENT_ID,
       auth_uri: AUTH_URI,
@@ -63,6 +61,7 @@ app.get('/processed', (req, res) => {
     return res.redirect('/')
   }
 })
+app.get('/404', (req, res) => res.render('404'))
 app.get('/:id', async (req, res) => {
   const col = database.collection('addresses')
   const snapshot = await col.where('puni', '==', req.params.id).get()
@@ -75,9 +74,10 @@ app.get('/:id', async (req, res) => {
     } else {
       return res.redirect(`http://${href}`)
     }
+  } else {
+    return res.redirect('404')
   }
 })
-app.get('*', (req, res) => res.send('404'))
 
 app.post('/', async (req, res) => {
   if (urlReg.test(req.body.url)) {
