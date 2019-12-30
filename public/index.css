@@ -1,5 +1,6 @@
 *, *::before, *::after {
   box-sizing: inherit;
+	font-family: Muli, sans-serif;
 }
 :focus, :hover {
 	outline: none;
@@ -19,13 +20,12 @@ body {
 	background-color: whitesmoke;
 }
 .error-snip {
-	font-family: Muli, sans-serif;
 	position: absolute;
 	background-color: rgb(204, 58, 58);
 	text-align: center;
 	color: whitesmoke;
 	padding: 7px 20px;
-	top: 30px;
+	top: 50px;
 	font-size: 0.8em;
 	border-radius: 8px;
 	cursor: default;
@@ -45,7 +45,6 @@ h1 {
 	margin-bottom: 25px;
   font-weight: normal;
 	font-size: 1.5em;
-	font-family: Muli, sans-serif;
 	color: #333;
 	text-align: center;
 }
@@ -59,7 +58,6 @@ input {
 	border: none;
 	width: 75%;
 	padding: .6em;
-	font-family: Muli, sans-serif;
 	box-shadow: 0 2px 5px rgba(71, 69, 84, 0.25);
 }
 button {
@@ -74,7 +72,6 @@ button {
 	max-width: 75px;
 	padding: .6em;
 	cursor: pointer;
-	font-family: Muli, sans-serif;
 	color: #333;
 	box-shadow: 0 2px 5px rgba(71, 69, 84, 0.25);
 }
@@ -84,12 +81,8 @@ button:hover {
 button:active {
 	background-color: rgb(255, 113, 61);
 }
-.flex-center {
-	display: flex;
+.fd-col {
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	font-family: Muli, sans-serif;
 }
 .flex-center h1 {
 	font-size: 3em;
@@ -119,4 +112,38 @@ button:active {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+.disclaimer {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	text-decoration: none;
+	color: #8685EF;
+}
+.dp-msg {
+	max-width: 750px;
+	font-size: 1.1em;
+	line-height: 1.8em;
+	width: 80vw;
+	color: #333;
+}
+.disclaimer-page a {
+	text-decoration: none;
+	color: #8685EF;
+	margin-top: 100px;
+}
+.cr {
+	position: absolute;
+	bottom: 10px;
+	font-size: .7em;
+	color: #333;
+}
+@media only screen and (max-width: 767px) {
+	.dp-msg {
+		font-size: 1em;
+		line-height: normal;
+	}
+	.disclaimer-page a {
+		margin-top: 50px;
+	}
 }

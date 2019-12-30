@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/huntinghawk1415/puniurl/issues"
   },
-  "homepage": "https://github.com/huntinghawk1415/puniurl#readme",
+  "homepage": "http://puniurl.com/kBVwy194",
   "dependencies": {
     "crypto-random-string": "^3.0.1",
     "dotenv": "^8.2.0",
