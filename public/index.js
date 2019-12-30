@@ -35,6 +35,7 @@ async function process() {
     btn.innerHTML = curBtnInner
     msg.classList.remove('no-show')
     msg.innerHTML = "Please use a valid url"
+    enterAllowed = true
   }
 }
 
