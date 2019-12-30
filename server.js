@@ -78,9 +78,8 @@ app.get('/:id', async (req, res) => {
 
 app.post('/', async (req, res) => {
   if (urlReg.test(req.body.url)) {
-    const normalizedUrl = req.body.url.toLowerCase()
     const col = database.collection('addresses')
-    const snapshot = await col.where('href', '==', normalizedUrl).get()
+    const snapshot = await col.where('href', '==', req.body.url).get()
     
     if (snapshot.size === 1) {
       linkToGive = `${domainName}${snapshot.docs[0].get('puni')}`
@@ -89,7 +88,7 @@ app.post('/', async (req, res) => {
       const puni = await givePuni(col)
 
       linkToGive = `${domainName}${puni}`
-      col.doc().set({href: normalizedUrl, puni})
+      col.doc().set({href: req.body.url, puni})
 
       return res.send({error: null, processed: linkToGive})
     }
