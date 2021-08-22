@@ -1,3 +1,5 @@
+> ❗ This website has been retired and is no longer available. You can still download this repo and run the program on your own machine.
+
 # PuniUrl
 
 ## PuniUrl shortens urls to make them easier to manage
