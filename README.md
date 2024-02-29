@@ -1,4 +1,4 @@
-> ❗ This website has been retired and is no longer available. You can still download this repo and run the program on your own machine.
+> ⚠️ This project is being archived. Don't really feel like keeping up with security updates.
 
 # PuniUrl
 
